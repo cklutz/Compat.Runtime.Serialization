@@ -18,10 +18,13 @@
         <InformationalVersion>$(Version).0</InformationalVersion>
         <FileVersion>$(Version).0</FileVersion>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <RepositoryUrl>https://github.com/cklutz/Compat.Runtime.Serialization</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="LICENSE.txt" Pack="true" PackagePath="\"/>
+        <None Include="LICENSE.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup>
