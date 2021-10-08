@@ -840,7 +840,7 @@ namespace Compat.Runtime.Serialization
             {
                 if (typeOfIExtensibleDataObject == null)
                 {
-                    typeOfIExtensibleDataObject = typeof(System.Runtime.Serialization.IExtensibleDataObject);
+                    typeOfIExtensibleDataObject = typeof(IExtensibleDataObject);
                 }
 
                 return typeOfIExtensibleDataObject;

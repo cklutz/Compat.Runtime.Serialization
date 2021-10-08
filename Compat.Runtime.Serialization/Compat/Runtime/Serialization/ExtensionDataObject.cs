@@ -10,4 +10,9 @@ namespace Compat.Runtime.Serialization
 
         internal IList<ExtensionDataMember> Members { get; set; }
     }
+
+    public interface IExtensibleDataObject
+    {
+        ExtensionDataObject ExtensionData { get; set; }
+    }
 }

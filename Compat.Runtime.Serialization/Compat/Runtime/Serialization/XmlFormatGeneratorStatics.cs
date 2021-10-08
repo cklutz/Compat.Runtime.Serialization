@@ -3,7 +3,6 @@ using System.Collections;
 using System.Reflection;
 using System.Xml;
 using IDeserializationCallback = System.Runtime.Serialization.IDeserializationCallback;
-using IExtensibleDataObject = System.Runtime.Serialization.IExtensibleDataObject;
 using SerializationException = System.Runtime.Serialization.SerializationException;
 
 namespace Compat.Runtime.Serialization
@@ -1212,7 +1211,7 @@ namespace Compat.Runtime.Serialization
             {
                 if (extensionDataSetExplicitMethodInfo == null)
                 {
-                    extensionDataSetExplicitMethodInfo = typeof(System.Runtime.Serialization.IExtensibleDataObject).GetMethod(Globals.ExtensionDataSetMethod);
+                    extensionDataSetExplicitMethodInfo = typeof(IExtensibleDataObject).GetMethod(Globals.ExtensionDataSetMethod);
                 }
 
                 return extensionDataSetExplicitMethodInfo;
