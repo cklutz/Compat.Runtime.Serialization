@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net5.0</TargetFrameworks>
+        <TargetFrameworks>net48;net5.0;net6.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <IsPackable>true</IsPackable>
         <PackageId>Compat.Runtime.Serialization</PackageId>
-        <Version>1.0.1</Version>
+        <Version>1.0.3</Version>
         <Authors>Christian Klutz</Authors>
         <Description>
             Provides System.Runtime.Serialization.NetDataContractSerializer implementation for
