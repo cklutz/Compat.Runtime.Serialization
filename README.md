@@ -11,3 +11,4 @@ which in turn is based on https://github.com/microsoft/referencesource.
 
 [![Windows](https://github.com/cklutz/Compat.Runtime.Serialization/workflows/Windows/badge.svg)](https://github.com/cklutz/Compat.Runtime.Serialization/actions?query=workflow%3AWindows)
 
+
