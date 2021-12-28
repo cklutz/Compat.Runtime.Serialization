@@ -13,4 +13,4 @@ which in turn is based on https://github.com/microsoft/referencesource.
 
 [![Ubuntu](https://github.com/cklutz/Compat.Runtime.Serialization/workflows/Ubuntu/badge.svg)](https://github.com/cklutz/Compat.Runtime.Serialization/actions?query=workflow%3AUbuntu)
 
-[![Desktop](https://github.com/cklutz/Compat.Runtime.Serialization/workflows/Ubuntu/badge.svg)](https://github.com/cklutz/Compat.Runtime.Serialization/actions?query=workflow%3ADesktop)
+[![Desktop](https://github.com/cklutz/Compat.Runtime.Serialization/workflows/Desktop/badge.svg)](https://github.com/cklutz/Compat.Runtime.Serialization/actions?query=workflow%3ADesktop)
