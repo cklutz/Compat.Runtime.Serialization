@@ -3,6 +3,13 @@ using System.IO;
 using DataContractAttribute = System.Runtime.Serialization.DataContractAttribute;
 using DataMemberAttribute = System.Runtime.Serialization.DataMemberAttribute;
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Reflection;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Linq;
+using System.Text.RegularExpressions;
 #if NETFRAMEWORK
 using IExtensibleDataObject = System.Runtime.Serialization.IExtensibleDataObject;
 using ExtensionDataObject = System.Runtime.Serialization.ExtensionDataObject;
@@ -24,6 +31,105 @@ namespace Compat.Runtime.Serialization.Tests
             public ExtensionDataObject ExtensionData { get; set; }
         }
 
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void Roundtrip_Dictionary_WithComparer(bool ignoreCase)
+        {
+            var dict = new Dictionary<string, string>(ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+            dict.Add("Test1", "Value1");
+            dict.Add("Test2", "Value2");
+
+            var ser = new System.Runtime.Serialization.NetDataContractSerializer();
+            using (var stream = new MemoryStream())
+            {
+                ser.Serialize(stream, dict);
+                // Used when generating hex bytes for other tests when you make a change
+                // System.Diagnostics.Debug.WriteLine(ByteArrayToString(stream.ToArray()));
+                stream.Position = 0;
+
+                Console.WriteLine("------------------------");
+                Console.WriteLine(Encoding.UTF8.GetString(stream.ToArray()));
+                Console.WriteLine("------------------------");
+
+                var result = (Dictionary<string, string>)ser.Deserialize(stream);
+
+                Assert.AreEqual(dict.Count, result.Count);
+                Assert.AreEqual(dict["Test1"], result["Test1"]);
+                Assert.AreEqual(dict["Test2"], result["Test2"]);
+            }
+        }
+
+        private const string ComparerSampleFullFramework = @"<OrdinalComparer z:Id=""1"" z:Type=""System.OrdinalComparer"" z:Assembly=""0"" xmlns=""http://schemas.datacontract.org/2004/07/System"" " +
+            @"xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:z=""http://schemas.microsoft.com/2003/10/Serialization/""> " +
+            @"<_ignoreCase>true</_ignoreCase></OrdinalComparer>";
+
+        private const string ComparerSampleNetCore = @"<OrdinalIgnoreCaseComparer z:Id=""1"" z:FactoryType=""OrdinalComparer"" " +
+            @"z:Type=""System.OrdinalComparer"" z:Assembly=""mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"" " +
+            @"xmlns=""http://schemas.datacontract.org/2004/07/System"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:x=""http://www.w3.org/2001/XMLSchema"" " +
+            @"xmlns:z=""http://schemas.microsoft.com/2003/10/Serialization/"">" +
+            // This is what Compat writes, but ...
+            //@" <_ignoreCase z:Id=""2"" z:Type=""System.Boolean"" z:Assembly=""mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"" xmlns="""">true</_ignoreCase>" + 
+            // This is what Compat read expects:
+            @"<_ignoreCase>true</_ignoreCase>" +
+            @" </OrdinalIgnoreCaseComparer>";
+
+        [TestMethod]
+        public void CanSerialize_Correctly()
+        {
+            var obj = StringComparer.OrdinalIgnoreCase;
+
+            using (var stream = new MemoryStream())
+            {
+                var ser = new System.Runtime.Serialization.NetDataContractSerializer();
+                ser.Serialize(stream, obj);
+                stream.Position = 0;
+                Console.WriteLine(Encoding.UTF8.GetString(stream.ToArray()));
+
+                var res = ser.Deserialize(stream);
+                Assert.AreEqual(obj.GetType(), res.GetType());
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(ComparerSampleFullFramework, DisplayName = ".NET Framework")]
+        [DataRow(ComparerSampleNetCore, DisplayName = ".NET Core")]
+        public void CanDeserialize_OtherClr(string data)
+        {
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
+            {
+                var ser = new System.Runtime.Serialization.NetDataContractSerializer();
+
+                var result = (IEqualityComparer<string>)ser.Deserialize(stream);
+                Console.WriteLine(result.GetType());
+
+                Assert.IsTrue(result.Equals("HI", "hi"));
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void Roundtrip_Custom_WithComparer(bool ignoreCase)
+        {
+            var comparer = (ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+
+            var ser = new System.Runtime.Serialization.NetDataContractSerializer();
+            using (var stream = new MemoryStream())
+            {
+                ser.Serialize(stream, comparer);
+                // Used when generating hex bytes for other tests when you make a change
+                // System.Diagnostics.Debug.WriteLine(ByteArrayToString(stream.ToArray()));
+                stream.Position = 0;
+
+                Console.WriteLine("------------------------");
+                Console.WriteLine(Encoding.UTF8.GetString(stream.ToArray()));
+                Console.WriteLine("------------------------");
+
+                var result = (StringComparer)ser.Deserialize(stream);
+                Console.WriteLine(result);
+            }
+        }
 
         [TestMethod]
         public void Deserializes_Serialized_Data()

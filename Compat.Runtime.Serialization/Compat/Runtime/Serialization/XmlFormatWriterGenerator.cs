@@ -153,7 +153,9 @@ namespace Compat.Runtime.Serialization
                 InvokeOnSerializing(classContract);
 
                 if (classContract.IsISerializable)
+                {
                     ilg.Call(contextArg, XmlFormatGeneratorStatics.WriteISerializableMethod, xmlWriterArg, objectLocal);
+                }
                 else
                 {
                     if (classContract.ContractNamespaces.Length > 1)

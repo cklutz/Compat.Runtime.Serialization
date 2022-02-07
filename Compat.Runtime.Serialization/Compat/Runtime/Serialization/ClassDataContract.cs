@@ -576,7 +576,15 @@ namespace Compat.Runtime.Serialization
                     return;
                 }
                 Type baseType = type.BaseType;
-                isISerializable = (Globals.TypeOfISerializable.IsAssignableFrom(type));
+                isISerializable = (Globals.TypeOfISerializable.IsAssignableFrom(type) &&
+                    // In .NET Framework the (sub classes of) StringCompare do not implement ISerializable.
+                    // In .NET Core they do. This leads to, say, StringComparer.Ordinal being deserialized
+                    // differently and that causes issues.
+                    // Strangely enough, this implementation cannot even deserialize it's own serialized
+                    // format. It can deserialize .NET Framework format however. By having StringComparer
+                    // being serialized as with the .NET Framework, we can read .NET Core format and
+                    // .NET Framework format.
+                    !typeof(System.StringComparer).IsAssignableFrom(type));
                 SetIsNonAttributedType(type);
                 if (isISerializable)
                 {
