@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace System.Runtime.Serialization
 {
-    public class NetDataContractSerializer : XmlObjectSerializer, IFormatter
+    public class NetDataContractSerializer : XmlObjectSerializer//, IFormatter
     {
         private readonly Compat.Runtime.Serialization.NetDataContractSerializer m_impl;
 
