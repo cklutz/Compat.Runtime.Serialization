@@ -21,6 +21,7 @@
         <RepositoryUrl>https://github.com/cklutz/Compat.Runtime.Serialization</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeSymbols>true</IncludeSymbols>
     </PropertyGroup>
 
     <ItemGroup>
