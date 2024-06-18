@@ -1,54 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net48;net5.0;net6.0</TargetFrameworks>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <IsPackable>true</IsPackable>
-        <PackageId>Compat.Runtime.Serialization</PackageId>
-        <Version>1.0.6</Version>
-        <Authors>Christian Klutz</Authors>
-        <Description>
-            Provides System.Runtime.Serialization.NetDataContractSerializer implementation for
-            .NET Core &amp; Standard targets. Forwards to framework implementation for .NET full
-            framework targets.
+	<PropertyGroup>
+		<TargetFrameworks>net48;net6.0;net8.0</TargetFrameworks>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>AssemblyKey.snk</AssemblyOriginatorKeyFile>
+		<IsPackable>true</IsPackable>
+		<PackageId>Compat.Runtime.Serialization.Signed</PackageId>
+		<Version>1.0.6</Version>
+		<Authors>Simon Egli</Authors>
+		<Description>
+			Provides System.Runtime.Serialization.NetDataContractSerializer implementation for
+			.NET Core &amp; Standard targets. Forwards to framework implementation for .NET full
+			framework targets.
+			Based on the work of https://github.com/dmitrykolchev/NetDataContractSerializer,
+			which in turn is based on https://github.com/microsoft/referencesource.
+		</Description>
+		<InformationalVersion>$(Version).0</InformationalVersion>
+		<FileVersion>$(Version).0</FileVersion>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/simonegli8/Compat.Runtime.Serialization.Signed</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+	</PropertyGroup>
 
-            Based on the work of https://github.com/dmitrykolchev/NetDataContractSerializer,
-            which in turn is based on https://github.com/microsoft/referencesource.
-        </Description>
-        <InformationalVersion>$(Version).0</InformationalVersion>
-        <FileVersion>$(Version).0</FileVersion>
-        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-        <RepositoryUrl>https://github.com/cklutz/Compat.Runtime.Serialization</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <IncludeSymbols>true</IncludeSymbols>
-    </PropertyGroup>
+	<ItemGroup>
+		<None Include="LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <None Include="LICENSE.txt" Pack="true" PackagePath="\" />
-    </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Compat\SR.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SR.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="Compat\SR.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>SR.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Compat\SR.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>SR.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>Compat</CustomToolNamespace>
+		</EmbeddedResource>
+	</ItemGroup>
 
-    <ItemGroup>
-        <EmbeddedResource Update="Compat\SR.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>SR.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>Compat</CustomToolNamespace>
-        </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
 </Project>
