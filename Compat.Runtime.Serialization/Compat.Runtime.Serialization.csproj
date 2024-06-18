@@ -6,7 +6,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>AssemblyKey.snk</AssemblyOriginatorKeyFile>
     <IsPackable>true</IsPackable>
-    <PackageId>Compat.Runtime.Serialization.Signed</PackageId>
+    <PackageId>Compat.Runtime.Serialization</PackageId>
     <Version>1.0.7</Version>
     <Authors>Christian Klutz</Authors>
     <Description>
