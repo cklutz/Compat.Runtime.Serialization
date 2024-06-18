@@ -15,14 +15,9 @@ using StreamingContextStates = System.Runtime.Serialization.StreamingContextStat
 
 namespace Compat.Runtime.Serialization
 {
-#if NET8_0
-   public sealed class NetDataContractSerializer : XmlObjectSerializer//, IFormatter
-#else
-   public sealed class NetDataContractSerializer : XmlObjectSerializer, IFormatter
-#endif
-
-	{
-		private XmlDictionaryString rootName;
+    public sealed class NetDataContractSerializer : XmlObjectSerializer, IFormatter
+    {
+        private XmlDictionaryString rootName;
         private XmlDictionaryString rootNamespace;
         private StreamingContext context;
         private SerializationBinder binder;
